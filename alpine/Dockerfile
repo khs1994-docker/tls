@@ -1,8 +1,9 @@
 FROM alpine:latest
 
-RUN apk add --no-cache openssl
+RUN apk add --no-cache openssl \
+    && mkdir /ssl
 
-COPY *.cnf root-ca.crt /srv/
+COPY *.cnf root-ca.crt root-ca.key /srv/
 
 WORKDIR /ssl
 

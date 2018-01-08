@@ -1,12 +1,5 @@
 #!/bin/sh
 
-cd /srv
-
-sed -i "s/DOMAIN/${DOMAIN}/g" site.cnf
-sed -i "s/SITE_IP/${SITE_IP}/g" site.cnf
-
-cd /ssl
-
 ca_root(){
   cd /srv
   echo "[root_ca]
@@ -34,21 +27,28 @@ fi
 
 if [ "$1" = 'root_ca' ];then
   ca_root
-  cp /srv/root-ca.crt /ssl
+  cp /srv/root-ca.crt /srv/root-ca.key /ssl
   exit 0
 fi
 
-if ! [ -f /srv/root-ca.crt ];then
-  ca_root
-fi
+if ! [ -f /srv/root-ca.crt ];then echo "ROOT CA ERROR"; exit 1;fi
+if ! [ -f /srv/root-ca.key ];then echo "ROOT CA ERROR"; exit 1;fi
+
+
+rm -rf /ssl/*
+
+sed -i "s/DOMAIN/${DOMAIN}/g" /srv/site.cnf
+sed -i "s/SITE_IP/${SITE_IP}/g" /srv/site.cnf
 
 openssl genrsa -out "/ssl/${DOMAIN}.key" 4096
 
-openssl req -new -key "/ssl/${DOMAIN}.key" -out "site.csr" -sha256 \
+openssl req -new -key "/ssl/${DOMAIN}.key" -out "/ssl/site.csr" -sha256 \
          -subj "/C=CN/ST=Shanxi/L=Datong/O=Your Company Name/CN=${DOMAIN}"
 
-openssl x509 -req -days 750 -in "site.csr" -sha256 \
-         -CA "root-ca.crt" -CAkey "root-ca.key"  -CAcreateserial \
-         -out "/ssl/${DOMAIN}.crt" -extfile "site.cnf" -extensions server
+openssl x509 -req -days 750 -in "/ssl/site.csr" -sha256 \
+         -CA "/srv/root-ca.crt" -CAkey "/srv/root-ca.key"  -CAcreateserial \
+         -out "/ssl/${DOMAIN}.crt" -extfile "/srv/site.cnf" -extensions server
 
 cp /srv/root-ca.crt /ssl
+
+rm -rf /ssl/*.csr
