@@ -1,7 +1,11 @@
 #!/bin/sh
 
+cd /srv
+
 sed -i "s/DOMAIN/${DOMAIN}/g" site.cnf
 sed -i "s/SITE_IP/${SITE_IP}/g" site.cnf
+
+cd /ssl
 
 ca_root(){
   cd /srv
@@ -22,6 +26,11 @@ subjectKeyIdentifier=hash" > root-ca.cnf
              -extfile "root-ca.cnf" -extensions \
              root_ca
 }
+
+if [ "$1" = 'sh' ] || [ "$1" = bash ];then
+  exec /bin/sh
+  exit 0
+fi
 
 if [ "$1" = 'root_ca' ];then
   ca_root
