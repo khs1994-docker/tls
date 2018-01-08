@@ -3,5 +3,4 @@ authorityKeyIdentifier=keyid,issuer
 basicConstraints = critical,CA:FALSE
 extendedKeyUsage=serverAuth
 keyUsage = critical, digitalSignature, keyEncipherment
-subjectAltName = DNS:DOMAIN, IP:SITE_IP
 subjectKeyIdentifier=hash

@@ -1,13 +1,15 @@
 # TLS
 
-替换 `DOMAIN` 为你的网站地址 `SITE_IP` 为你站点的 IP。
-
 ```bash
-$ docker run --rm \
-    -v $PWD/ssl:/ssl \
-    -e DOMAIN=docker.domain.com \
-    -e SITE_IP=127.0.0.1 \
-    khs1994/tls
+$ docker run -it --rm -v $PWD/ssl:/ssl khs1994/tls help
+
+$ docker run -it --rm -v $PWD/ssl:/ssl khs1994/tls 127.0.0.1 123.206.62.18 www.khs1994.com www.t.khs1994.com lnmp.khs1994.com 192.168.199.100 ...
 ```
 
-将 `./ssl/root-ca.crt` 导入浏览器中。
+务必将 `./ssl/root-ca.crt` 导入浏览器中。各浏览器导入方法请自行查找。
+
+# 快速测试
+
+`https://*.t.khs1994.com` 均指向 127.0.0.1
+
+你可以使用这个网址快速测试。
