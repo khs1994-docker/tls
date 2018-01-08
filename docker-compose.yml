@@ -1,5 +1,10 @@
 version: "3"
 services:
+
   tls:
     build: ./alpine
     image: khs1994/tls
+    env_file:
+      - ./.env
+    volumes:
+      - ./ssl:/ssl
