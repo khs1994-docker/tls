@@ -51,18 +51,17 @@ case "$1" in
     ;;
 
    help )
-   exec echo "
-输出帮助信息
+   exec echo "输出帮助信息
 
-$ docker run -it --rm -v $PWD/ssl:/ssl khs1994/tls help
+$ docker run -it --rm -v \$PWD/ssl:/ssl khs1994/tls help
 
 自行签发证书
 
-$ docker run -it --rm -v $PWD/ssl:/ssl khs1994/tls 127.0.0.1 123.206.62.18 www.t.khs1994.com lnmp.khs1994.com 192.168.199.100 ...
+$ docker run -it --rm -v \$PWD/ssl:/ssl khs1994/tls 127.0.0.1 123.206.62.18 www.t.khs1994.com lnmp.khs1994.com 192.168.199.100 ...
 
 生成 ROOT CA (非专业人员请谨慎使用)
 
-$ docker run -it --rm -v $PWD/ssl:/ssl khs1994/tls root_ca
+$ docker run -it --rm -v \$PWD/ssl:/ssl khs1994/tls root_ca
 "
 ;;
 esac
