@@ -57,7 +57,9 @@ $ docker run -it --rm -v \$PWD/ssl:/ssl khs1994/tls help
 
 自行签发证书
 
-$ docker run -it --rm -v \$PWD/ssl:/ssl khs1994/tls 127.0.0.1 123.206.62.18 www.t.khs1994.com lnmp.khs1994.com 192.168.199.100 ...
+$ docker run -it --rm -v \$PWD/ssl:/ssl khs1994/tls khs1994.com
+
+$ docker run -it --rm -v \$PWD/ssl:/ssl khs1994/tls khs1994.com *.khs1994.com t.khs1994.com *.t.khs1994.com 192.168.199.100 127.0.0.1 localhost...
 
 生成 ROOT CA (非专业人员请谨慎使用)
 
