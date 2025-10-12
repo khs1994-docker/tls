@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM ghcr.io/khs1994-docker/docker.io/library/alpine:3.22
 
 RUN apk add --no-cache openssl
 

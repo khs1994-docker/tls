@@ -92,7 +92,18 @@ echo "subjectAltName = $str"
 
 echo "subjectAltName = $str" >> /srv/site.cnf
 
-openssl genrsa -out "/ssl/$1.key" 4096
+# rsa
+openssl genrsa -out "/ssl/$1.rsa.key" 4096
+
+openssl req -new -key "/ssl/$1.rsa.key" -out "/ssl/site.csr" -sha256 \
+         -subj "/C=CN/ST=Shanxi/L=Datong/O=Your Company Name/CN=$1"
+
+openssl x509 -req -days 750 -in "/ssl/site.csr" -sha256 \
+         -CA "/srv/root-ca.crt" -CAkey "/srv/root-ca.key"  -CAcreateserial \
+         -out "/ssl/$1.rsa.crt" -extfile "/srv/site.cnf" -extensions server
+
+# ecc
+openssl ecparam -genkey -name prime256v1 -out "/ssl/$1.key"
 
 openssl req -new -key "/ssl/$1.key" -out "/ssl/site.csr" -sha256 \
          -subj "/C=CN/ST=Shanxi/L=Datong/O=Your Company Name/CN=$1"
@@ -100,6 +111,7 @@ openssl req -new -key "/ssl/$1.key" -out "/ssl/site.csr" -sha256 \
 openssl x509 -req -days 750 -in "/ssl/site.csr" -sha256 \
          -CA "/srv/root-ca.crt" -CAkey "/srv/root-ca.key"  -CAcreateserial \
          -out "/ssl/$1.crt" -extfile "/srv/site.cnf" -extensions server
+
 
 cp /srv/root-ca.crt /ssl
 
